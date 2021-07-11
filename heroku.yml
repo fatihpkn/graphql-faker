@@ -1,0 +1,5 @@
+build:
+  docker:
+    web: Dockerfile
+  run:
+   web: docker run -p=9002:9002 apisguru/graphql-faker [options] [SDL file]
