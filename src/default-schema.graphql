@@ -11,6 +11,7 @@
 #
 # Developed with ❤️ by APIs.guru | https://github.com/APIs-guru/graphql-faker
 
+
 type Company {
   id: ID
   name: String @fake(type: companyName)
@@ -21,15 +22,27 @@ type Company {
 
 type Employee {
   id: ID
-  firstName: String @fake(type: firstName, locale: en_CA)
-  lastName: String @fake(type: lastName, locale: en_CA)
-  address: String @fake(type: streetAddress, options: { useFullAddress: true })
+  avatar: String @fake(type: imageUrl, options: { imageSize: {width: 200, height: 200} })
+	gender: String @examples(values: ["male", "female"])
+  jobTitle: String @fake(type: jobTitle, locale: tr)
+  firstName: String @fake(type: firstName, locale: tr)
+  lastName: String @fake(type: lastName, locale: tr)
+  address: String @fake(type: streetAddress, options: { useFullAddress: true }, locale: tr)
+  phone: String @fake(type: phoneNumber,locale: tr)
   subordinates: [Employee!] @listLength(min: 0, max: 3)
-  company: Company
+  company: Company,
+  age: Int @fake(type: number, options: {minNumber: 18, maxNumber: 35})
+  rate: Int @fake(type: number, options: {minNumber:0, maxNumber: 300})
 }
 
+
 type Query {
-  employee(id: ID): Employee
+  employee(id: ID!, firstName: String): Employee
   company(id: ID): Company
   allCompanies: [Company!]
+  employees: [Employee!] @listLength(min: 10, max: 25)
+}
+
+type Mutation {
+  updateUserRate(userId: String, rate: Int): Employee
 }
